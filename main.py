@@ -25,7 +25,7 @@ def start():
     screen = Screen()
     screen.setup(width=BOARD_W + 50, height=BOARD_H + 50)
     screen.bgcolor("black")
-    screen.title("Aggregation Simulator")
+    screen.title("Simulation")
     screen.tracer(0)
 
     number = int(number_scale.get())
@@ -47,27 +47,21 @@ def start():
     while running:
 
         screen.update()
-
         for molecule in molecules:
-            if (400 < molecule.xcor() < 450) or molecule.xcor() < -400 or (400 < molecule.ycor() < 450) or molecule.ycor() < -400:
+            if (BOARD_W/2 < molecule.xcor() < BOARD_W/2+50) or molecule.xcor() < -BOARD_W/2 or (BOARD_H/2 < molecule.ycor() < BOARD_H/2+50) or molecule.ycor() < -BOARD_H/2:
                 molecule.bounce(borders, move_type)
 
         for molecule in molecules:
-            if 500 > molecule.xcor() > -500:
+            if (BOARD_W/2+50 > molecule.xcor()) > -BOARD_W/2-50 and (BOARD_H/2+50 > molecule.ycor() > -BOARD_H/2-50):
                 molecule.move(move_type)
-
-        z = 0
-        for molecule in molecules:
-            if -450 < molecule.xcor() < 450 and -450 < molecule.ycor() < 450:
-                z += 1
 
         for i in range(0, len(molecules)):
             for j in range(i+1, len(molecules)):
-                if molecules[i].xcor() < 450:
+                if molecules[i].xcor() < BOARD_W/2+50 and molecules[i].ycor() < BOARD_H/2+50:
                     if molecules[i].distance(molecules[j]) < precision:
                         n += 1
                         molecules[i].size_increase(molecules[i].size_a, molecules[j].size_a)
-                        molecules[j].goto(1000, 1000)
+                        molecules[j].goto(BOARD_H, BOARD_W)
 
         cond_score = n/number*100
         formatted_cond = "{:.2f}".format(cond_score)
@@ -80,55 +74,59 @@ def start():
             running = False
 
         now = time.time() - start
-        formatted_string = "{:.2f}".format(now)
-        time_label.config(text=f"Time of simulation: {formatted_string}")
+        formatted_time = "{:.2f}".format(now)
+        time_label.config(text=f"Time of simulation: {formatted_time}")
         cond_label.config(text=f"Condesation score: {formatted_cond}%")
-        rep.add_result(formatted_string, formatted_cond)
+        rep.add_result(formatted_time, formatted_cond)
     screen.exitonclick()
 
 
 window = Tk()
-window.title("Kondensator")
-window.config(padx=50, pady=25, bg='#F2EDD7')
+window.title("Condenser")
+window.config(padx=50, pady=25, bg='#84DFFF')
 
 #Scales
-number_scale = Scale(from_=0, to=200, orient=HORIZONTAL)
+number_scale = Scale(from_=0, to=200, orient=HORIZONTAL, bg='#84DFFF')
 number_scale.set(100)
-number_scale.grid(row=2, column=0, columnspan=4)
-speed_scale = Scale(from_=0, to=25, orient=HORIZONTAL)
-speed_scale.set(5)
-speed_scale.grid(row=3, column=0, columnspan=4)
-precision_scale = Scale(from_=0, to=50, orient=HORIZONTAL)
+number_scale.grid(row=1, column=1)
+precision_scale = Scale(from_=0, to=40, orient=HORIZONTAL, bg='#84DFFF')
 precision_scale.set(10)
-precision_scale.grid(row=4, column=0, columnspan=4)
+precision_scale.grid(row=2, column=1)
+speed_scale = Scale(from_=0, to=20, orient=HORIZONTAL, bg='#84DFFF')
+speed_scale.set(5)
+speed_scale.grid(row=3, column=1)
 
 #Buttons
-on = IntVar()
-
 start_button = Button(height=1, width=9, text="START", font=('Arial', 12, "bold"), bg='#9AE66E', command=start)
 start_button.grid(row=0, column=0)
 end_button = Button(height=1, width=9, text="RESET", font=('Arial', 12, "bold"), bg='#FF6D6D', command=end)
 end_button.grid(row=0, column=1)
 
 move_var = IntVar()
-chaotic_radiobutton = Radiobutton(text="Chaotic", variable=move_var, value=0)
-chaotic_radiobutton.grid(row=5, column=0)
-steady_radiobutton = Radiobutton(text="Steady", variable=move_var, value=1)
-steady_radiobutton.grid(row=6, column=0)
+chaotic_radiobutton = Radiobutton(text="Chaotic", variable=move_var, value=0, bg='#84DFFF')
+chaotic_radiobutton.grid(row=4, column=0)
+steady_radiobutton = Radiobutton(text="Steady", variable=move_var, value=1, bg='#84DFFF')
+steady_radiobutton.grid(row=5, column=0)
 
 border_var = IntVar()
-noborder_radiobutton = Radiobutton(text="No borders", variable=border_var, value=0)
-noborder_radiobutton.grid(row=7, column=0)
-border_radiobutton = Radiobutton(text="Borders", variable=border_var, value=1)
-border_radiobutton.grid(row=8, column=0)
-vborder_radiobutton = Radiobutton(text="Virtual borders", variable=border_var, value=2)
-vborder_radiobutton.grid(row=9, column=0)
+noborder_radiobutton = Radiobutton(text="No borders", variable=border_var, value=0, bg='#84DFFF')
+noborder_radiobutton.grid(row=4, column=1)
+border_radiobutton = Radiobutton(text="Borders", variable=border_var, value=1, bg='#84DFFF')
+border_radiobutton.grid(row=5, column=1)
+vborder_radiobutton = Radiobutton(text="Virtual borders", variable=border_var, value=2, bg='#84DFFF')
+vborder_radiobutton.grid(row=6, column=1)
 
 #Labels
-time_label = Label(height=2, text="Waiting ...", font=('Arial', 14, "bold"), bg='#F2EDD7')
-time_label.grid(row=10, column=0, columnspan=3)
+number_label = Label(height=2, text="Number: ", font=('Arial', 12, "bold"), bg='#84DFFF')
+number_label.grid(row=1, column=0)
+precision_label = Label(height=2, text="Precision: ", font=('Arial', 12, "bold"), bg='#84DFFF')
+precision_label.grid(row=2, column=0)
+speed_label = Label(height=2, text="Speed: ", font=('Arial', 12, "bold"), bg='#84DFFF')
+speed_label.grid(row=3, column=0)
 
-cond_label = Label(height=2, text="Condesation score ...", font=('Arial', 14, "bold"), bg='#F2EDD7')
-cond_label.grid(row=11, column=0, columnspan=3)
+time_label = Label(height=2, text="Time of simulation: ", font=('Arial', 12, "bold"), bg='#84DFFF')
+time_label.grid(row=9, column=0, columnspan=2)
+cond_label = Label(height=2, text="Condesation score: ", font=('Arial', 12, "bold"), bg='#84DFFF')
+cond_label.grid(row=10, column=0, columnspan=2)
 
 window.mainloop()

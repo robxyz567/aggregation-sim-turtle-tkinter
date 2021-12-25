@@ -32,25 +32,25 @@ class Molecule(Turtle):
             pass
         elif b_mode == 1:     # normalne granice
             if m_mode == 0: # przypadek chaotic move
-                if self.xcor() < -400:
-                    self.goto(-400, self.ycor())
-                elif self.xcor() > 400:
-                    self.goto(400, self.ycor())
-                elif self.ycor() < -400:
-                    self.goto(self.xcor(), -400)
-                elif self.ycor() > 400:
-                    self.goto(self.xcor(), 400)
+                if self.xcor() < -self.board_w/2:
+                    self.goto(-self.board_w/2, self.ycor())
+                elif self.xcor() > self.board_w/2:
+                    self.goto(self.board_w/2, self.ycor())
+                elif self.ycor() < -self.board_h/2:
+                    self.goto(self.xcor(), -self.board_h/2)
+                elif self.ycor() > self.board_h/2:
+                    self.goto(self.xcor(), self.board_h/2)
                 self.speed = -self.speed
             if m_mode == 1:               # przypadek straight move
                 angle = self.heading()
 
-                if self.ycor() > 400 or self.ycor() < -400:
+                if self.ycor() > self.board_h/2 or self.ycor() < -self.board_h/2:
                     if 0 < angle < 180:
                         self.setheading(0 - angle)
                     else:
                         self.setheading(360 - angle)
 
-                elif self.xcor() > 400 or self.xcor() < -400:
+                elif self.xcor() > self.board_w/2 or self.xcor() < -self.board_w/2:
 
                     if 0 < angle < 180:
                         self.setheading(180 - angle)

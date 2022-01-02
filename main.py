@@ -60,7 +60,7 @@ def start():
                 if molecules[i].xcor() < BOARD_W/2+50 and molecules[i].ycor() < BOARD_H/2+50:
                     if molecules[i].distance(molecules[j]) < precision:
                         n += 1
-                        molecules[i].size_increase(molecules[i].size_a, molecules[j].size_a)
+                        molecules[i].size_increase(molecules[i].size, molecules[j].size)
                         molecules[j].goto(BOARD_H, BOARD_W)
 
         cond_score = n/number*100

@@ -8,9 +8,8 @@ class Molecule(Turtle):
         super().__init__()
         self.shape("circle")
         self.color("yellow")
-        self.size_a = 0.5
-        self.size_b = 0.5
-        self.shapesize(self.size_a, self.size_b)
+        self.size = 0.5
+        self.shapesize(self.size, self.size)
         self.penup()
         self.board_w = board_w
         self.board_h = board_h
@@ -65,7 +64,6 @@ class Molecule(Turtle):
     def size_increase(self, r1, r2):
 
         rx = (r1 ** 3 + r2 ** 3) ** 0.333
-        self.size_a = rx
-        self.size_b = rx
-        self.shapesize(self.size_a, self.size_b)
+        self.size = rx
+        self.shapesize(self.size, self.size)
         self.color("red")

@@ -103,9 +103,9 @@ end_button = Button(height=1, width=9, text="RESET", font=('Arial', 12, "bold"),
 end_button.grid(row=0, column=1)
 
 move_var = IntVar()
-chaotic_radiobutton = Radiobutton(text="Chaotic", variable=move_var, value=0, bg='#84DFFF')
+chaotic_radiobutton = Radiobutton(text="Chaotic move", variable=move_var, value=0, bg='#84DFFF')
 chaotic_radiobutton.grid(row=4, column=0)
-steady_radiobutton = Radiobutton(text="Steady", variable=move_var, value=1, bg='#84DFFF')
+steady_radiobutton = Radiobutton(text="Normal move", variable=move_var, value=1, bg='#84DFFF')
 steady_radiobutton.grid(row=5, column=0)
 
 border_var = IntVar()

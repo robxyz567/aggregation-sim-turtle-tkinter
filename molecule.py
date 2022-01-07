@@ -1,6 +1,8 @@
 from turtle import Turtle
 import random
 
+COLORS = ["orange", "red", "purple", "blue", "green"]
+
 
 class Molecule(Turtle):
 
@@ -27,10 +29,10 @@ class Molecule(Turtle):
         self.forward(self.speed)
 
     def bounce(self, b_mode, m_mode):
-        if b_mode == 0:     # bez granic
+         if b_mode == 0:     # no borders
             pass
-        elif b_mode == 1:     # normalne granice
-            if m_mode == 0: # przypadek chaotic move
+         elif b_mode == 1:     # normal borders
+            if m_mode == 0: # chaotic move
                 if self.xcor() < -self.board_w/2:
                     self.goto(-self.board_w/2, self.ycor())
                 elif self.xcor() > self.board_w/2:
@@ -40,7 +42,7 @@ class Molecule(Turtle):
                 elif self.ycor() > self.board_h/2:
                     self.goto(self.xcor(), self.board_h/2)
                 self.speed = -self.speed
-            if m_mode == 1:               # przypadek straight move
+            if m_mode == 1:               # normal move
                 angle = self.heading()
 
                 if self.ycor() > self.board_h/2 or self.ycor() < -self.board_h/2:
@@ -56,14 +58,15 @@ class Molecule(Turtle):
                     else:
                         self.setheading(540 - angle)
 
-        elif b_mode == 2:       # wirtualne granice
+         elif b_mode == 2:       # virtual borders
             x = random.randint(-0.95 * self.board_w / 2, 0.95 * self.board_w / 2)
             y = random.randint(-0.95 * self.board_h / 2, 0.95 * self.board_h / 2)
             self.goto(x, y)
 
     def size_increase(self, r1, r2):
 
-        rx = (r1 ** 3 + r2 ** 3) ** 0.333
+        rx = (r1 ** 3 + r2 ** 3) ** 0.333   # from the formula for the volume of a sphere
         self.size = rx
         self.shapesize(self.size, self.size)
-        self.color("red")
+        new_color = random.choice(COLORS)
+        self.color(new_color)

@@ -1,7 +1,7 @@
 from turtle import Turtle
 import random
 
-COLORS = ["orange", "red", "purple", "blue", "green"]
+COLORS = ["red", "blue", "green"]
 
 
 class Molecule(Turtle):
